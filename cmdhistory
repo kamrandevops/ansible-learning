@@ -1,0 +1,88 @@
+ansible all -l  'ansible-client1' -m yum -a "name=wget state=present"
+  111  ansible all -l  'ansible-client1' -m yum -a "name=wget state=present" -b
+  112  ansible-doc |grep user
+  113  ansible-doc -l |grep user
+  114  clear
+  115  ansible all -l  'ansible-client1' -m yum -a "list=wget" -b
+  116  ansible-doc service
+  117  ansible all -l  'ansible-client1' -m file -a "path=/tmp/mydir state=directory mode=0755"
+  118  ansible all -l  'ansible-client1' -m stat -a "path=/tmp/mydir"
+  119  ansible all -l  'ansible-client1' -m shell -a "ls -ld /tmp/mydir"
+  120  ansible all -l  'ansible-client1' -m file -a "path=/tmp/mydir/file1 state=touch mode=0755"
+  121  ansible all -l  'ansible-client1' -m file -a "path=/tmp/mydir/file1 state=absent"
+  122  ansible all -l  'ansible-client1' -m shell -a "ls -l /tmp/mydir/file1"
+  123  ansible all -l  'ansible-client1' -m user -a "name=john home=/home/john shell=/bin/bash"
+  124  ansible all -l  'ansible-client1' -m user -a "name=john home=/home/john shell=/bin/bash" -b
+  125  vi inventory
+  126  ansible localhost -m debug -a "msg={{ 'welcome' | password_hash('sha512', 'mysecretsalt') }}"
+  127  ansible all -l  'ansible-client1' -m user -a 'name=john password="$6$mysecretsalt$isXX3ORnc1X6T38bPk2hwv1R4utHnhl0/kaghIJAA2PPS9I38sJfpnhuXBFIbSSoYHnCXTN02vNbiuOLJfR8g."' -b
+  128* vi inventory
+  129  ansible localhost -m debug -a "msg={{ Hi Friends }}"
+  130  ansible localhost -m debug -a "msg=Hi Friends"
+  131  ansible localhost -m debug -a 'msg="{{Hi Friends}}"
+  132  ansible localhost -m debug -a 'msg="{{Hi Friends}}"'
+  133  ansible localhost -m debug -a 'msg={{'Hi Friends'}}'
+  134*
+  135  echo "hi friends"
+  136  echo 'welcome' | password_hash('sha512', 'mysecretsalt')
+  137  echo 'welcome' | password_hash('sha512')
+  138  tail /etc/shadow
+  139  sudo tail /etc/shadow
+  140  ansible localhost -m setup
+  141  vi inventory
+  142  ansible localhost -m setup
+  143  ansible localhost -m setup -a 'filter=ansible_*'
+  144  ansible localhost -m setup -a 'filter=ansible_hostname'
+  145  ansible localhost -m setup -a 'filter=ansible_kernel'
+  146  ansible localhost -m setup -a 'filter=ansible_mounts'
+  147  ansible localhost -m setup -a 'filter=ansible_devices'
+  148  ansible localhost -m setup -a 'filter=ansible_local'
+  149  ansible localhost -m setup
+  150  vi inventory
+  151  ansible localhost -m setup
+  152  cat inventory
+  153  vi inventory
+  154  ansible all ansible-client1 -m archive -a "path=/tmp/mydir dest=/tmp/mydir.tgz"
+  155  ansible all -l ansible-client1 -m archive -a "path=/tmp/mydir dest=/tmp/mydir.tgz"
+  156  ansible all -l ansible-client1 -m shell -a "file /tmp/mydir.tgz"
+  157  ansible all -l ansible-client1 -m shell -a "lsblk -f"
+  158  ansible all -l ansible-client1 -m shell -a "mkdir /tmp/mydir2"
+  159  ansible all -l ansible-client1 -m copy -a "/tmp/mydir /tmp/mydir2"
+  160  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir dest=/tmp/mydir2"
+  161  ansible all -l ansible-client1 -m shell -a "ls /tmp/mydir2 /tmp/mydir"
+  162  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir dest=/tmp/mydir2/"
+  163  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir dest=/tmp/mydir2/ remote_src=yes"
+  164  ls /tmp/mydir
+  165  mkdir /tmp/mydir4
+  166* ansible all -l ansible-client1 -m copy -a "src=/tmp"
+  167  ansible all -l ansible-client1 -m shell -a "ls /tmp"
+  168  touch /tmp/file1
+  169  ansible all -l ansible-client1 -m shell -a "ls /tmp/mydir2"
+  170  ansible all -l ansible-client1 -m copy -a "src=/tmp/file1 dest=/tmp/mydir2/"
+  171  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4 dest=/tmp/mydir2"
+  172  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4 dest=/tmp/mydir2" -vv
+  173  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4 dest=/tmp/mydir2 mode=0755 owner=moon group=moon"
+  174  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4/ dest=/tmp/mydir2 mode=0755 owner=moon group=moon"
+  175  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4/ dest=/tmp/mydir2/ mode=0755 owner=moon group=moon"
+  176  ansible all -l ansible-client1 -m copy -a "src=/tmp/mydir4 dest=/tmp/mydir2/ mode=0755 owner=moon group=moon"
+  177  vi copy-dir
+  178  mv copy-dir copy-dir.yml
+  179  ansible-playbook copy-dir.yml --syntax-check
+  180  ansible-playbook copy-dir.yml
+  181  ansible all -l ansible-client1 -m shell -a "lsblk -f"
+  182  ansible all -l ansible-client1 -m filesystem -a "dev=/dev/sdb fstype=xfs"
+  183  ansible all -l ansible-client1 -m filesystem -a "dev=/dev/sdb fstype=xfs"  -b
+  184  ansible all -l ansible-client1 -m shell -a "lsblk -f"
+  185  ansible all -l ansible-client1 -m mount -a "path=/mnt src=/dev/sdb "  -b
+  186  ansible all -l ansible-client1 -m mount -a "path=/mnt src=/dev/sdb state=present "  -b
+  187  ansible all -l ansible-client1 -m mount -a "path=/mnt src=/dev/sdb fstype=xfs state=present "  -b
+  188  ansible all -l ansible-client1 -m shell -a "lsblk -f"
+  189  ansible all -l ansible-client1 -m shell -a "df -h"
+  190  ansible all -l ansible-client1 -m mount -a "path=/mnt src=/dev/sdb fstype=xfs state=mounted "  -b
+  191  ansible all -l ansible-client1 -m shell -a "lsblk -f"
+  192  ansible all -l ansible-client1 -m shell -a "df -h"
+  193  ansible all -l ansible-client1 -m shell -a "cat /etc/fstab"
+  194  ansible all -l ansible-client1 -m mount -a "path=/mnt src=/dev/sdb fstype=xfs state=unmounted state=absent"  -b
+  195  ansible all -l ansible-client1 -m shell -a "cat /etc/fstab"
+  196  ansible all -l ansible-client1 -m shell -a "df -h"
+  197  ansible all -l ansible-client1 -m shell -a "lsblk -f"
